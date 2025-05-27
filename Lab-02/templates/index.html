@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực hành An toàn thông tin nâng cao</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #4682b4; /* Màu xanh dương */
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2); /* Điều chỉnh để tương phản với nền xanh dương */
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape-1 { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+        .shape-2 { width: 60px; height: 60px; top: 50%; right: 15%; animation-delay: 2s; }
+        .shape-3 { width: 100px; height: 100px; bottom: 20%; left: 20%; animation-delay: 4s; }
+        .shape-4 { width: 40px; height: 40px; top: 30%; right: 30%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+        }
+
+        .main-title {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Tăng độ đậm text-shadow để nổi bật trên nền xanh */
+            line-height: 1.2;
+        }
+
+        .student-info {
+            background: rgba(255, 255, 255, 0.3); /* Tăng độ sáng để tương phản */
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .menu-title {
+            color: #333;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .menu-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(45deg, #2f5e8a, #4682b4); /* Điều chỉnh màu để phù hợp với nền xanh dương */
+            border-radius: 2px;
+        }
+
+        /* Cipher Options Grid */
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cipher-option {
+            background: linear-gradient(135deg, #2f5e8a, #4682b4); /* Điều chỉnh gradient để phù hợp với nền xanh dương */
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .cipher-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cipher-option:hover::before {
+            left: 100%;
+        }
+
+        .cipher-option:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cipher-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .cipher-option:hover .cipher-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: #ffffff;
+        }
+
+        .cipher-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .cipher-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .cipher-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 0.8rem 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cipher-option:hover .cipher-button {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* Alternative List Style */
+        .cipher-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-title {
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .cipher-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #2f5e8a, #4682b4); /* Điều chỉnh gradient để phù hợp với nền xanh dương */
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cipher-item:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-icon {
+            font-size: 2rem;
+            margin-right: 1.5rem;
+            width: 60px;
+            text-align: center;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .item-arrow {
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .cipher-item:hover .item-arrow {
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.9); /* Tăng độ sáng để nổi bật trên nền xanh */
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .student-info {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .cipher-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .cipher-option {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://file1.hutech.edu.vn/file/editor/homepage/stories/hinh34/logo%20CMYK-01.png" 
+                     alt="HUTECH Logo" class="logo">
+            </div>
+            <h1 class="main-title">BÀI THỰC HÀNH BẢO MẬT THÔNG TIN NÂNG CAO</h1>
+            <div class="student-info">
+                PHẠM NGỌC TRAI + 2280603326 HELLO WORLD !
+            </div>
+        </div>
+
+        <!-- Navigation Menu - Grid Style -->
+        <div class="nav-menu">
+            <h2 class="menu-title">CHỌN THUẬT TOÁN MÃ HÓA</h2>
+            <div class="cipher-grid">
+                <a href="/caesar" class="cipher-option">
+                    <i class="cipher-icon fas fa-key"></i>
+                    <h3 class="cipher-title">Caesar Cipher</h3>
+                    <p class="cipher-description">
+                        Thuật toán mã hóa cổ điển sử dụng phép dịch chuyển ký tự trong bảng chữ cái
+                    </p>
+                    <span class="cipher-button">Thực hành</span>
+                </a>
+
+                <a href="/vigenere" class="cipher-option">
+                    <i class="cipher-icon fas fa-lock"></i>
+                    <h3 class="cipher-title">Vigenère Cipher</h3>
+                    <p class="cipher-description">
+                        Mã hóa polyalphabetic sử dụng từ khóa để tạo ra chuỗi mã phức tạp
+                    </p>
+                    <span class="cipher-button">Thực hành</span>
+                </a>
+
+                <a href="/playfair" class="cipher-option">
+                    <i class="cipher-icon fas fa-chess-board"></i>
+                    <h3 class="cipher-title">Playfair Cipher</h3>
+                    <p class="cipher-description">
+                        Thuật toán mã hóa sử dụng ma trận 5x5 để mã hóa các cặp ký tự
+                    </p>
+                    <span class="cipher-button">Thực hành</span>
+                </a>
+
+                <a href="/railfence" class="cipher-option">
+                    <i class="cipher-icon fas fa-exchange-alt"></i>
+                    <h3 class="cipher-title">Rail Fence Cipher</h3>
+                    <p class="cipher-description">
+                        Mã hóa hoán vị sắp xếp văn bản theo dạng zigzag trên nhiều "ray"
+                    </p>
+                    <span class="cipher-button">Thực hành</span>
+                </a>
+            </div>
+        </div>
+
+        
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 HUTECH - Đại học Công nghệ TP.HCM</p>
+            <p>Khoa Công Nghệ Thông tin</p>
+        </div>
+    </div>
+</body>
+</html>
