@@ -6,7 +6,7 @@ def encode_image(image_path, message):
     width, height = img.size
     pixel_index = 0
     binary_message = ''.join(format(ord(char), '08b') for char in message)
-    binary_message += '1111111111111110' # Đánh dấu kết thúc thông điệp
+    binary_message += '00000000' # Đánh dấu kết thúc thông điệp
     data_index = 0
     for row in range(height):
         for col in range(width):

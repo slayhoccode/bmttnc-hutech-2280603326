@@ -14,15 +14,15 @@ def decode_image(encoded_image_path):
 
     message = ""
     for i in range(0, len(binary_message), 8):
-        char_code = int(binary_message[i:i+8], 2)
+        char = chr(int(binary_message[i:i+8], 2))
         # Check for the termination sequence '1111111111111110'
         # The character code for '11111110' (decimal 254) is used as the end marker
         # This assumes the message itself does not contain this character.
         # It's better to check for the full 16-bit sequence if possible.
         # For simplicity, based on the previous encode_image function, we'll check for 254.
-        if char_code == 254 and (i + 16 <= len(binary_message) and binary_message[i:i+16] == '1111111111111110'):
+        if char == '\0':
             break # Kết thúc thông điệp khi gặp dấu kết thúc
-        message += chr(char_code)
+        message += char
     
     return message
 
